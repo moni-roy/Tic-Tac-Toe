@@ -1,7 +1,22 @@
 #include <tictac_support.h>
 #include <bits/stdc++.h>
 
-// Get all available moves
+/**
+	get_moves: takes a board state and gets all available moves.
+
+	args:
+		int [][3] board: 3x3 array of ints representing the 
+		board state. The values of board are altered based
+		on the move
+			0: empty
+			1: x
+		   -1: o
+		AI: it defines the state value for AI.
+		human: it defines the state value for human.
+
+	returns (std::vector<std::pair<int, int>> ):
+		all available moves as a pair of x, y coordinate
+**/
 std::vector<std::pair<int, int>> get_moves(int board[][3], int &AI, int &human)
 {
     std::vector<std::pair<int, int>> moves;
@@ -19,14 +34,21 @@ std::vector<std::pair<int, int>> get_moves(int board[][3], int &AI, int &human)
     return moves;
 }
 
-// Check the board is full or not
-bool is_full(int board[][3], int &AI, int &human)
-{
-    std::vector<std::pair<int, int>> moves = get_moves(board, AI, human);
-    return 0 == moves.size();
-}
+/**
+	is_winner: takes a board state and check if the marker is winner.
 
-// check if marker is winner
+	args:
+		int [][3] board: 3x3 array of ints representing the 
+		board state. The values of board are altered based
+		on the move
+			0: empty
+			1: x
+		   -1: o
+		marker: it defines the state value of AI or human.
+
+	returns (int):
+		true if the marker is winner.
+**/
 bool is_winner(int board[][3], int marker)
 {
     for (int i = 0; i < 3; i++)
@@ -47,21 +69,55 @@ bool is_winner(int board[][3], int marker)
     return false;
 }
 
-// Check if someone has won or lost
+/**
+	is_over: takes a board state and check if game has any winner nor not.
+
+	args:
+		int [][3] board: 3x3 array of ints representing the 
+		board state. The values of board are altered based
+		on the move
+			0: empty
+			1: x
+		   -1: o
+		AI: it defines the state value for AI.
+		human: it defines the state value for human.
+
+	returns (int):
+		the winnig score if AI win, lossing score if AI lost, or draw score if no winner.
+**/
 int is_over(int board[][3], int &AI, int &human)
 {
-    return is_winner(board, AI) ? 999 : (is_winner(board, human) ? -999 : 0);
+    return is_winner(board, AI) ? 10 : (is_winner(board, human) ? -10 : 0);
 }
 
-// minmax algo with pruning
+/**
+	minimax_optimization: runs the minmax optimization (alpha-beta prunig) 
+		algorithm to get the best move.
+
+	args:
+		int [][3] board: 3x3 array of ints representing the 
+		board state. The values of board are altered based
+		on the move
+			0: empty
+			1: x
+		   -1: o
+		marker: it defines the current state value of AI or human.
+		alpha: the value of alpha.
+		beta: the value of beta.
+		AI: it defines the state value of AI.
+		human: it defines the state value of human.
+
+	returns (pair<int, std::pair<int, int>>):
+		a pair of best_score and the coordinates of the best move.
+**/
 std::pair<int, std::pair<int, int>> minimax_optimization(int board[][3], int marker, int alpha, int beta, int &AI, int &human)
 {
     // Initialize best move
     std::pair<int, int> best_move = std::make_pair(-1, -1);
-    int best_score = (marker == AI) ? -999 : 999;
+    int best_score = (marker == AI) ? -10 : 10;
 
     // If we hit a terminal state (leaf node), return the best score and move
-    if (is_full(board, AI, human) || is_over(board, AI, human) != 0)
+    if (get_moves(board, AI, human).size() == 0 || is_over(board, AI, human) != 0)
     {
         best_score = is_over(board, AI, human);
         return std::make_pair(best_score, best_move);
@@ -87,8 +143,8 @@ std::pair<int, std::pair<int, int>> minimax_optimization(int board[][3], int mar
                 if (beta <= alpha)
                     break;
             }
-
-        } // Minimizing opponent's turn
+        }
+        // Minimizing opponent's turn
         else
         {
             int score = minimax_optimization(board, AI, alpha, beta, AI, human).first;

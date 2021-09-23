@@ -77,7 +77,7 @@ int make_move(int board[][3], bool interactive)
 
 		std::pair<int, std::pair<int, int>> best_move = minimax_optimization(board, AI, -10000, 10000, AI, human);
 		board[best_move.second.first][best_move.second.second] = AI;
-		std::cout << "Best move by AI " << (AI == 1 ? "(user X)" : "(user O)") << ": " << best_move.second.first << " " << best_move.second.second << "\n";
+		std::cout << "Best move by AI " << (AI == 1 ? "(User X)" : "(User O)") << ": " << best_move.second.first << " " << best_move.second.second << "\n";
 		print_board(board);
 
 		if (interactive)
@@ -94,7 +94,13 @@ int make_move(int board[][3], bool interactive)
 	return 1;
 }
 
-// Print the board
+/**
+	print_board: takes a board state and print the board
+
+	args:
+		int [][3] board: 3x3 array of ints representing the 
+		board state. The values of board are altered based
+**/
 void print_board(int board[3][3])
 {
 	std::vector<std::vector<char>> display_board(3, std::vector<char>(3, ' '));
@@ -119,13 +125,28 @@ void print_board(int board[3][3])
 	std::cout << std::endl;
 }
 
-// get user input
+/**
+	user_input: takes a board state and a valid move 
+			from user and put in the board
+
+	args:
+		int [][3] board: 3x3 array of ints representing the 
+		board state. The values of board are altered based
+		on the move
+			0: empty
+			1: x
+		   -1: o
+		state: it defines the state value for user.
+		
+	returns (bool):
+		true if get the move successfully.
+**/
 bool user_input(int board[][3], int state)
 {
 	while (true)
 	{
 		int x, y;
-		std::cout << "Enter the x, y (0 - indexed): ";
+		std::cout << "Enter the x, y (0 - indexed) " << (state == 1 ? "(User X)" : "(User O)") << " : ";
 		std::cin >> x >> y;
 
 		if (x > 3 || x < 0 || y > 3 || y < 0 || board[x][y] != 0)
@@ -147,6 +168,23 @@ bool user_input(int board[][3], int state)
 	}
 }
 
+/**
+	game_over: takes a board state and check if game is over. 
+		Also print the game state.
+
+	args:
+		int [][3] board: 3x3 array of ints representing the 
+		board state. The values of board are altered based
+		on the move
+			0: empty
+			1: x
+		   -1: o
+		AI: it defines the state value for AI.
+		human: it defines the state value for human.
+
+	returns (bool):
+		true if the game is over.
+**/
 bool game_over(int board[][3], int &AI, int &human)
 {
 	if (get_moves(board, AI, human).size() == 0)
@@ -155,13 +193,14 @@ bool game_over(int board[][3], int &AI, int &human)
 		return true;
 	}
 	int score = is_over(board, AI, human);
-	std::cout << score;
+
 	if (score != 0)
 	{
 		if (score > 0)
-			std::cout << "You Lost!" << (human == 1 ? "(user X)" : "(user O)") << ".\n";
+			std::cout << "You Lost!! ";
 		else
-			std::cout << "You win!!\n";
+			std::cout << "You win!! ";
+		std::cout << (human == 1 ? "(User X)" : "(User O)") << ".\n";
 		return true;
 	}
 	return false;

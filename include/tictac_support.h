@@ -105,7 +105,7 @@ bool user_input(int board[][3], int state);
 bool game_over(int board[][3], int &AI, int &human);
 
 /**
-	get_moves: takes a board state and check if game is over.
+	get_moves: takes a board state and gets all available moves.
 
 	args:
 		int [][3] board: 3x3 array of ints representing the 
@@ -141,7 +141,7 @@ std::vector<std::pair<int, int>> get_moves(int board[][3], int &AI, int &human);
 int is_over(int board[][3], int &AI, int &human);
 
 /**
-	is_winner: takes a board state and check if the marker is won.
+	is_winner: takes a board state and check if the marker is winner.
 
 	args:
 		int [][3] board: 3x3 array of ints representing the 
@@ -153,7 +153,7 @@ int is_over(int board[][3], int &AI, int &human);
 		marker: it defines the state value of AI or human.
 
 	returns (int):
-		true if the marker is won.
+		true if the marker is winner.
 **/
 bool is_winner(int board[][3], int marker);
 
