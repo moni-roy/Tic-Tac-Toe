@@ -81,33 +81,35 @@ Usage
     ./tictactoe [inputFile] [outputFile] [--play]
 
 DESCRIPTIONS
-    A program to play the 3×3 tic–tac–toe game interactively. 
-    
+    A program to play the 3×3 tic–tac–toe game interactively.
+
     The program used a minimax search algorithm with alpha-beta
-    pruning to get the best moves if no immediate win move is available. 
-    
-    If the initial state is in losing position, 
+    pruning to get the best moves if no immediate win move is available.
+
+    If the initial state is in losing position,
     it will return the first available move.
 
 
 OPTIONS
     inputFile
-        Name of the input file. It contains the initial board state. 
-        
-        The board value should be -1, 0, or 1, 
-        where -1, 0, and 1 means O, empty, and X, respectively. 
-        
+        Name of the input file. It contains the initial board state.
+
+        The board value should be -1, 0, or 1,
+        where -1, 0, and 1 means O, empty, and X, respectively.
+
         If you give the the inputFile, you must give the outFile as well.
 
     outputFile
-        Name of the output file. Programs will save the final state of the board. 
+        Name of the output file. Programs will save the final state of the board.
         If file is not exit, it will create one.
-        
+
     --play
-        If you want to play interactively with AI. 
-        Otherwise, the program will make only one move.  
+        If you want to play interactively with AI.
+        Otherwise, the program will make only one move.
 ```
-- Example
+
+## Run Examples
+
 ```
 <this example to make one possible best move>
 ./tictactoe test.board out.board
