@@ -105,6 +105,24 @@ bool user_input(int board[][3], int state);
 bool game_over(int board[][3], int &AI, int &human);
 
 /**
+	has_winning_move: takes a board state and check if has a winning move
+
+	args:
+		int [][3] board: 3x3 array of ints representing the 
+		board state. The values of board are altered based
+		on the move
+			0: empty
+			1: x
+		   -1: o
+		AI: it defines the state value for AI.
+		human: it defines the state value for human.
+
+	returns (bool):
+		true if it has a winning move.
+**/
+bool has_winning_move(int board[][3], int &AI, int &human);
+
+/**
 	get_moves: takes a board state and gets all available moves.
 
 	args:

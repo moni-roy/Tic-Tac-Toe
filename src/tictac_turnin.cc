@@ -37,9 +37,9 @@ int make_move(int board[][3], bool interactive)
 	}
 
 	print_board(board);
-	if (is_winner(board, 1) || is_winner(board, -1))
+	if (is_winner(board, 1) || is_winner(board, -1) || abs(state) > 1)
 	{
-		std::cout << "The board has atleat a winner!.\n";
+		std::cout << "The board has at least one winner!. Or the state is not correct.\n";
 		return 0;
 	}
 
@@ -69,6 +69,9 @@ int make_move(int board[][3], bool interactive)
 	}
 
 	int AI = state, human = -state;
+	// check if there is an immediate win in the moves available
+	if (has_winning_move(board, AI, human))
+		return 1;
 
 	do
 	{
@@ -77,7 +80,7 @@ int make_move(int board[][3], bool interactive)
 
 		std::pair<int, std::pair<int, int>> best_move = minimax_optimization(board, AI, -10000, 10000, AI, human);
 		board[best_move.second.first][best_move.second.second] = AI;
-		std::cout << "Best move by AI " << (AI == 1 ? "(User X)" : "(User O)") << ": " << best_move.second.first << " " << best_move.second.second << "\n";
+		std::cout <<best_move.first<< "Best move by AI " << (AI == 1 ? "(User X)" : "(User O)") << ": " << best_move.second.first << " " << best_move.second.second << "\n";
 		print_board(board);
 
 		if (interactive)
@@ -202,6 +205,41 @@ bool game_over(int board[][3], int &AI, int &human)
 			std::cout << "You win!! ";
 		std::cout << (human == 1 ? "(User X)" : "(User O)") << ".\n";
 		return true;
+	}
+	return false;
+}
+
+/**
+	has_winning_move: takes a board state and check if has a winning move
+
+	args:
+		int [][3] board: 3x3 array of ints representing the 
+		board state. The values of board are altered based
+		on the move
+			0: empty
+			1: x
+		   -1: o
+		AI: it defines the state value for AI.
+		human: it defines the state value for human.
+
+	returns (bool):
+		true if it has a winning move.
+**/
+bool has_winning_move(int board[][3], int &AI, int &human)
+{
+	std::vector<std::pair<int, int>> moves = get_moves(board, AI, human);
+	for (auto move : moves)
+	{
+		board[move.first][move.second] = AI;
+		if (is_winner(board, AI))
+		{
+			std::cout << "Winning move by AI " << (AI == 1 ? "(User X)" : "(User O)") << ": " << move.first << " " << move.second << "\n";
+			print_board(board);
+			std::cout << "You Lost!! ";
+			std::cout << (human == 1 ? "(User X)" : "(User O)") << ".\n";
+			return true;
+		}
+		board[move.first][move.second] = 0;
 	}
 	return false;
 }

@@ -19,13 +19,13 @@ Alpha–beta pruning is a search algorithm that seeks to decrease the number of 
 ### Pseudocode
 
 ```
-function alphabeminimax_optimizationta(node, α, β, maximizingPlayer) is
+function minimax_optimization(node, α, β, maximizingPlayer) is
     if node is a terminal node or don't have legal moves then
         return the heuristic value of node
     if maximizingPlayer then
         value := −∞
         for each child of node do
-            value := max(value, alphabeta(child, α, β, FALSE))
+            value := max(value, minimax_optimization(child, α, β, FALSE))
             α := max(α, value)
             if value ≥ β then
                 break (* β cutoff *)
@@ -33,10 +33,72 @@ function alphabeminimax_optimizationta(node, α, β, maximizingPlayer) is
     else
         value := +∞
         for each child of node do
-            value := min(value, alphabeta(child, α, β, TRUE))
+            value := min(value, minimax_optimization(child, α, β, TRUE))
             β := min(β, value)
             if value ≤ α then
                 break (* α cutoff *)
         return value
 ```
 
+```
+(* Initial call *)
+minimax_optimization(origin, −∞, +∞, TRUE)
+```
+
+## Pre-requisities for run locally
+
+- cmake >= 2.6
+
+  - [Installation instructions](https://cmake.org/install/)
+
+- make
+
+  - Linux: make is installed by default on most Linux distros
+  - Mac: [See the xcode feature list](https://developer.apple.com/xcode/features/)
+  - Windows: [Installation instructions](http://gnuwin32.sourceforge.net/packages/make.htm)
+
+- gcc/g++ >= 5.4
+  - Linux: gcc / g++ is installed by default on most Linux distros
+  - Mac: same deal as make - [See the xcode feature list](https://developer.apple.com/xcode/features/)
+  - Windows: recommend using [MinGW](http://www.mingw.org/)
+
+## Compilation Instructions
+
+```
+<this section should only need to be done once>
+$ mkdir build && cd build
+$ cmake ..
+
+<each time you want to compile (from the build directory)>
+$ make
+(if successful, the executable will be in the ’build’ directory)
+```
+
+## Test/Play Instructions
+
+```
+Usage
+    ./tictactoe [inputFile] [outputFile] [--play]
+
+DESCRIPTIONS
+    A program to play 3×3 tic–tac–toe. The program used minimax search algorithm with alpha-beta pruning to get the best moves, if there is no immediate win move available.
+
+OPTIONS
+    inputFile
+        Name of the input file. It contains the initial board state. If you give the the inputFile, you must give the outFile as well.
+    outputFile
+        Name of the output file. Programs will save the final state of the board. If file is not exit, it will create one.
+    --play
+        If you want to play interactively with AI. Otherwise, the program will make only one move.  
+```
+- Example
+```
+<this example to make one possible best move>
+./tictactoe test.board out.board
+
+<example to play interactively with AI>
+./tictactoe test.board out.board --play
+
+<to play from the ZERO state>
+./tictactoe
+```

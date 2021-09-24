@@ -114,33 +114,32 @@ std::pair<int, std::pair<int, int>> minimax_optimization(int board[][3], int mar
 {
     // Initialize best move
     std::pair<int, int> best_move = std::make_pair(-1, -1);
-    int best_score = (marker == AI) ? -10 : 10;
+    int best_score = (marker == AI) ? -1000 : 1000;
 
     // If we hit a terminal state (leaf node), return the best score and move
-    if (get_moves(board, AI, human).size() == 0 || is_over(board, AI, human) != 0)
+    std::vector<std::pair<int, int>> moves = get_moves(board, AI, human);
+    if (moves.size() == 0 || is_over(board, AI, human) != 0)
     {
-        best_score = is_over(board, AI, human);
+       best_score = is_over(board, AI, human);
         return std::make_pair(best_score, best_move);
     }
 
-    std::vector<std::pair<int, int>> moves = get_moves(board, AI, human);
-
-    for (int i = 0; i < moves.size(); i++)
+    for (auto move : moves)
     {
-        std::pair<int, int> move = moves[i];
         board[move.first][move.second] = marker;
 
         // Maximizing player's turn
         if (marker == AI)
         {
             int score = minimax_optimization(board, human, alpha, beta, AI, human).first;
+            board[move.first][move.second] = 0;
+
             if (best_score < score)
             {
                 best_score = score;
                 best_move = move;
                 alpha = std::max(alpha, best_score);
-                board[move.first][move.second] = 0;
-                if (beta <= alpha)
+                if (beta <= best_score)
                     break;
             }
         }
@@ -148,19 +147,17 @@ std::pair<int, std::pair<int, int>> minimax_optimization(int board[][3], int mar
         else
         {
             int score = minimax_optimization(board, AI, alpha, beta, AI, human).first;
+            board[move.first][move.second] = 0;
 
             if (best_score > score)
             {
                 best_score = score;
                 best_move = move;
                 beta = std::min(beta, best_score);
-                board[move.first][move.second] = 0;
-                if (beta <= alpha)
+                if (best_score <= alpha)
                     break;
             }
         }
-
-        board[move.first][move.second] = 0;
     }
 
     return std::make_pair(best_score, best_move);

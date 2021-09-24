@@ -3,11 +3,12 @@
 
 void print_usage()
 {
-	std::cout << "Usage: " << std::endl;
-	std::cout << "./tictactoe inputFile outputFile --play" << std::endl;
-	std::cout << "\tinputFile: name of the input file." << std::endl;
-	std::cout << "\toutputFile: name of the output file." << std::endl;
-	std::cout << "\t--play: to play interactive with computer." << std::endl;
+	std::cout << "\nUsage: " << std::endl;
+	std::cout << "\t./tictactoe [inputFile] [outputFile] [--play]\n";
+	std::cout << "\nOptions:\n\n";
+	std::cout << "\tinputFile: \n\t\tname of the input file with the initial state of the board." << std::endl;
+	std::cout << "\toutputFile: \n\t\tname of the output file to save the final state of the board." << std::endl;
+	std::cout << "\t--play: \n\t\tto play interactive with AI." << std::endl;
 }
 
 int main(int argc, char *argv[])
@@ -19,7 +20,7 @@ int main(int argc, char *argv[])
 		if (argc == 1)
 		{
 			print_usage();
-			std::cout << "\nDo you want to play from the intital state? (y/n): ";
+			std::cout << "\nDo you still want to play from the ZERO state? (y/n): ";
 			std::cin >> s;
 		}
 		if (s == "yes" || s == "y" || s == "YES" || s == "Yes")
@@ -32,15 +33,16 @@ int main(int argc, char *argv[])
 		std::string play = "no";
 		if (argc > 3)
 			play = argv[3];
-			
+
 		// load in current board state
 		load_board(argv[1], board);
 
 		// make move
 		int isFinished = make_move(board, play == "--play");
 
-		if(!isFinished) {
-			std::cout<<"Something is wrong! Or Terminated by user.\n";
+		if (!isFinished)
+		{
+			std::cout << "Something is wrong! Or Terminated by user.\n";
 		}
 
 		// save board state
