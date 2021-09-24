@@ -15,8 +15,7 @@
 		interactive: if true, will play the game.
 
 	returns (int):
-		the number of steps it took to choose the best move
-		(current implementation returns 1 by default, 0 if no move made)
+		the number of steps the game run
 **/
 int make_move(int board[][3], bool interactive)
 {
@@ -46,6 +45,7 @@ int make_move(int board[][3], bool interactive)
 	state = -state;
 	if (state == 0)
 		state = 1;
+	int steps = 0;
 
 	if (interactive)
 	{
@@ -62,6 +62,7 @@ int make_move(int board[][3], bool interactive)
 			{
 				state = -state;
 				print_board(board);
+				steps++;
 			}
 			else
 				return 0;
@@ -76,20 +77,22 @@ int make_move(int board[][3], bool interactive)
 	do
 	{
 		if (game_over(board, AI, human))
-			return 1;
+			return steps;
 
 		std::pair<int, std::pair<int, int>> best_move = minimax_optimization(board, AI, -10000, 10000, AI, human);
 		board[best_move.second.first][best_move.second.second] = AI;
-		std::cout <<best_move.first<< "Best move by AI " << (AI == 1 ? "(User X)" : "(User O)") << ": " << best_move.second.first << " " << best_move.second.second << "\n";
+		std::cout << "Best move by AI " << (AI == 1 ? "(User X)" : "(User O)") << ": " << best_move.second.first << " " << best_move.second.second << "\n";
 		print_board(board);
+		steps++;
 
 		if (interactive)
 		{
 			if (game_over(board, AI, human))
-				return 1;
+				return steps;
 			if (!user_input(board, human))
-				return 0;
+				return steps;
 			print_board(board);
+			steps++;
 		}
 
 	} while (interactive);

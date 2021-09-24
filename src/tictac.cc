@@ -8,7 +8,7 @@ void print_usage()
 	std::cout << "\nOptions:\n\n";
 	std::cout << "\tinputFile: \n\t\tname of the input file with the initial state of the board." << std::endl;
 	std::cout << "\toutputFile: \n\t\tname of the output file to save the final state of the board." << std::endl;
-	std::cout << "\t--play: \n\t\tto play interactive with AI." << std::endl;
+	std::cout << "\t--play: \n\t\tto play interactively with AI." << std::endl;
 }
 
 int main(int argc, char *argv[])

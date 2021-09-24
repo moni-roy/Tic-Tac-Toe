@@ -53,8 +53,7 @@ int save_board(std::string filename, int board[][3]);
 		interactive: if true, will play the game.
 		
 	returns (int):
-		the number of steps it took to choose the best move
-		(returns 1 by default, 0 if no move made)
+		the number of steps the game run
 **/
 int make_move(int board[][3], bool interactive = false);
 
