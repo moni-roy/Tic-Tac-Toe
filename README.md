@@ -126,4 +126,4 @@ $ ./tictactoe
 
 ## Results and Discussion
 
-Please see the report for details.
+Please see the [report](https://github.com/moni-roy/Tic-Tac-Toe/blob/main/report/Report.pdf) for details.
