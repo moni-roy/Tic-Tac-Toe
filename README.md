@@ -19,30 +19,30 @@ Alpha–beta pruning is a search algorithm that seeks to decrease the number of 
 ### Pseudocode
 
 ```
-function minimax_optimization(node, α, β, maximizingPlayer) is
+function minimax_optimization(node, alpha, beta, maximizingPlayer) is
     if node is a terminal node or don't have legal moves then
         return the heuristic value of node
     if maximizingPlayer then
-        value := −∞
+        value := -INF
         for each child of node do
-            value := max(value, minimax_optimization(child, α, β, FALSE))
-            α := max(α, value)
-            if value ≥ β then
-                break
+            value := max(value, minimax_optimization(child, alpha, beta, FALSE))
+            alpha := max(alpha, value)
+            if value >= beta then
+                break 
         return value
     else
-        value := +∞
+        value := +INF
         for each child of node do
-            value := min(value, minimax_optimization(child, α, β, TRUE))
-            β := min(β, value)
-            if value ≤ α then
-                break
+            value := min(value, minimax_optimization(child, alpha, beta, TRUE))
+            beta := min(beta, value)
+            if value <= alpha then
+                break 
         return value
 ```
 
 ```
-(* Initial call *)
-minimax_optimization(origin, −∞, +∞, TRUE)
+<Initial call>
+minimax_optimization(origin, -INF, +INF, TRUE)
 ```
 
 ## Pre-requisities for run locally
