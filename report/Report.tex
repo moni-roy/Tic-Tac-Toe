@@ -1,0 +1,303 @@
+\documentclass[twoside,10pt]{article}
+%\setlength{\oddsidemargin}{0in}
+%\setlength{\evensidemargin}{0in}
+%\setlength{\textwidth}{16.0cm}
+%\setlength{\textheight}{22cm}
+%\pagestyle{myheadings}
+% \usepackage{xparse}
+\usepackage[margin=0.9in]{geometry}
+\usepackage{tcolorbox}
+\setlength\parindent{0pt}
+% \setlength{\parskip}{.5em}
+\definecolor{bubblegum}{rgb}{0.99, 0.76, 0.8}
+\usepackage[normalem]{ulem}
+\usepackage{xcolor,colortbl}
+% \usepackage{multirow}
+\usepackage{framed}
+\usepackage{caption}
+\usepackage{subcaption}
+\captionsetup{font={small}}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{listings}
+
+\begin{document}
+
+% \thispagestyle{empty}
+\begin{center}
+    %Title:
+    {\Large \bf CS 682 – Artificial Intelligence}
+
+    % \vspace{1cm}
+
+    {\Large \bf Project 1 – 3×3 Tic-Tac-Toe}
+
+    % \vspace{0.5cm}
+
+    {\large \today}
+
+    {\large \bf Monikrishna Roy}
+
+\end{center}
+
+\section*{Task Description}
+Write a program to play 3×3 tic–tac–toe. The program should use minimax search. You do not need to play the entire game, you just need to make one move. For example, the program should be executed like:
+
+\begin{verbatim}    
+    ./tictactoe <infile> <outfile>
+    infile: file to be loaded with a board state
+    output: file to be saved with board state after a move is made
+\end{verbatim}
+
+Your program should make a single move (x,y) which will be written to a file $<outfile>$, and exit. If there is an immediate win in the moves available, make that move. Otherwise, do minimax on all available moves.
+
+\section*{Purpose}
+
+The purpose of this assignment is to provide a basic programming experience with an algorithm commonly-used in AI. You should be able to demonstrate the ability to utilize a recursive algorithm in a game-playing scenario.
+
+\section*{Algorithms}
+
+This program uses the minimax algorithm with alpha-beta pruning to find the best available moves.
+
+\subsection*{Algorithm Details}
+
+A minimax algorithm is a recursive algorithm for choosing the next move in an n-player game, usually a two-player game. A value is associated with each position or state of the game. This value is computed by means of a position evaluation function and it indicates how good it would be for a player to reach that position. The player then makes the move that maximizes the minimum value of the position resulting from the opponent's possible following moves. If it is A's turn to move, A gives a value to each of their legal moves.
+
+Alpha–beta pruning is a search algorithm that seeks to decrease the number of nodes that are evaluated by the minimax algorithm in its search tree. It is an adversarial search algorithm used commonly for machine playing of two-player games (Tic-tac-toe, Chess, Go, etc.). It stops evaluating a move when at least one possibility has been found that proves the move to be worse than a previously examined move. Such moves need not be evaluated further. When applied to a standard minimax tree, it returns the same move as minimax would, but prunes away branches that cannot possibly influence the final decision.
+
+\newpage
+
+\subsection*{Pseudocode}
+
+Pseudocode for the minimax algorithm with alpha-beta pruning.
+
+\begin{tcolorbox}[boxrule=0pt]
+    \begin{verbatim}
+function minimax_optimization(node, alpha, beta, maximizingPlayer) is
+    if node is a terminal node or don't have legal moves then
+        return the heuristic value of node
+    if maximizingPlayer then
+        value := -INF
+        for each child of node do
+            value := max(value, minimax_optimization(child, alpha, beta, FALSE))
+            alpha := max(alpha, value)
+            if value >= beta then
+                break 
+        return value
+    else
+        value := +INF
+        for each child of node do
+            value := min(value, minimax_optimization(child, alpha, beta, TRUE))
+            beta := min(beta, value)
+            if value <= alpha then
+                break 
+        return value
+    \end{verbatim}
+\end{tcolorbox}
+\begin{tcolorbox}[boxrule=0pt]
+    \begin{verbatim}
+(* Initial call *)
+minimax_optimization(origin, -INF, +INF, TRUE)
+\end{verbatim}
+\end{tcolorbox}
+
+\section*{Pre-requisities for run locally}
+
+Some pre-requisities to run the program.
+
+\begin{itemize}
+    \item cmake $>=$ 2.6
+    \item make
+    \item gcc/g++ $>=$ 5.4
+\end{itemize}
+
+\section*{Compilation Instructions}
+
+Instructions to compile the project. First, need to create a build directory, then need to run make to build the program.
+
+\begin{tcolorbox}[boxrule=0pt]
+    \begin{verbatim}
+<this section should only need to be done once>
+$ mkdir build && cd build
+$ cmake ..
+
+<each time you want to compile (from the build directory)>
+$ make
+(if successful, the executable will be in the ’build’ directory)
+
+\end{verbatim}
+\end{tcolorbox}
+
+
+\section*{Test/Play Instructions}
+
+Details description of how to play the game. Options are not mandatory to play the game. However, if an input file is provided, then an output file must need to be provided.
+
+\begin{tcolorbox}[boxrule=0pt]
+    \begin{verbatim}
+Usage
+    ./tictactoe [inputFile] [outputFile] [--play]
+
+DESCRIPTIONS
+    A program to play the 3×3 tic–tac–toe game interactively.
+
+    The program used a minimax search algorithm with alpha-beta
+    pruning to get the best moves if no immediate win move is available.
+
+    If the initial state is in losing position,
+    it will return the first available move.
+
+
+OPTIONS
+    inputFile
+        Name of the input file. It contains the initial board state.
+
+        The board value should be -1, 0, or 1,
+        where -1, 0, and 1 means O, empty, and X, respectively.
+
+        If you give the the inputFile, you must give the outFile as well.
+
+    outputFile
+        Name of the output file. Programs will save the final state of the board.
+        If file is not exit, it will create one.
+
+    --play
+        If you want to play interactively with AI.
+        Otherwise, the program will make only one move.
+\end{verbatim}
+\end{tcolorbox}
+
+\section*{Run Commands}
+
+The commands are to run the program or conduct the entire game.
+
+\begin{tcolorbox}[boxrule=0pt]
+    \begin{verbatim}
+<need to run from buld directory, skip if already in there>
+$ cd build
+
+<command to make one possible best move>
+$ ./tictactoe test.board out.board
+
+<command to play interactively with AI>
+$ ./tictactoe test.board out.board --play
+
+<command to play from the ZERO state>
+$ ./tictactoe
+\end{verbatim}
+\end{tcolorbox}
+
+\section*{Results and Discussion}
+
+Here is the output for the provided test board without any immediate winning move. The program made the move (0, 0) which is one of the best moves.
+
+\begin{tcolorbox}[boxrule=0pt]
+\begin{verbatim}
+$ ./tictactoe test.board out.board
+
+<initial state>
+  |   |  
+----------
+X | O |  
+----------
+  |   |  
+
+Best move by AI (User X): 0 0
+
+<state after best move>
+X |   |  
+----------
+X | O |  
+----------
+  |   |  
+\end{verbatim}
+\end{tcolorbox}
+
+Here is the example for a test board with any immediate winning move. The program made the move (1, 2) as it's the immediate winning move.
+
+\begin{tcolorbox}[boxrule=0pt]
+\begin{verbatim}
+$ ./tictactoe test.board out.board
+
+<initial state>
+O |   |  
+----------
+X | X |  
+----------
+O |   |  
+
+Winning move by AI (User X): 1 2
+
+<state after best move>
+O |   |  
+----------
+X | X | X
+----------
+O |   |  
+<winning results>
+You Lost!! (User O).
+\end{verbatim}
+\end{tcolorbox}
+
+\newpage
+
+The below example is to conduct the full with AI interactively. In this example, User X is AI, and User O is human. The game was played to lose intentionally.
+
+\begin{tcolorbox}[boxrule=0pt]
+\begin{verbatim}
+$ ./tictactoe test.board out.board --play
+
+|   |  
+----------
+X | O |  
+----------
+  |   |  
+Do you want to start? (y/n): n
+Best move by AI (User X): 0 0
+
+X |   |  
+----------
+X | O |  
+----------
+  |   |  
+
+Enter the x, y (0 - indexed) (User O) : 2 0
+
+X |   |  
+----------
+X | O |  
+----------
+O |   |  
+
+Best move by AI (User X): 0 2
+
+X |   | X
+----------
+X | O |  
+----------
+O |   |  
+
+Enter the x, y (0 - indexed) (User O) : 2 2
+
+X |   | X
+----------
+X | O |  
+----------
+O |   | O
+
+Best move by AI (User X): 0 1
+
+X | X | X
+----------
+X | O |  
+----------
+O |   | O
+
+You Lost!! (User O).
+\end{verbatim}
+\end{tcolorbox}
+
+Please see the src directory to see the source codes.
+
+\end{document}

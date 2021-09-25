@@ -8,7 +8,7 @@ The purpose of this assignment is to provide a basic programming experience with
 
 ## Algorithms
 
-This program uses the minimax algorithm with alpha-beta pruning to reduce the search space.
+This program uses the minimax algorithm with alpha-beta pruning to find the best available moves
 
 ### Algorithm Details
 
@@ -28,7 +28,7 @@ function minimax_optimization(node, α, β, maximizingPlayer) is
             value := max(value, minimax_optimization(child, α, β, FALSE))
             α := max(α, value)
             if value ≥ β then
-                break (* β cutoff *)
+                break
         return value
     else
         value := +∞
@@ -36,7 +36,7 @@ function minimax_optimization(node, α, β, maximizingPlayer) is
             value := min(value, minimax_optimization(child, α, β, TRUE))
             β := min(β, value)
             if value ≤ α then
-                break (* α cutoff *)
+                break
         return value
 ```
 
@@ -59,7 +59,7 @@ minimax_optimization(origin, −∞, +∞, TRUE)
 
 - gcc/g++ >= 5.4
   - Linux: gcc / g++ is installed by default on most Linux distros
-  - Mac: same deal as make - [See the xcode feature list](https://developer.apple.com/xcode/features/)
+  - Mac: [See the xcode feature list](https://developer.apple.com/xcode/features/)
   - Windows: recommend using [MinGW](http://www.mingw.org/)
 
 ## Compilation Instructions
@@ -108,15 +108,22 @@ OPTIONS
         Otherwise, the program will make only one move.
 ```
 
-## Run Examples
+## Run Command
 
 ```
-<this example to make one possible best move>
-./tictactoe test.board out.board
+<need to run from buld directory, skip if already in there>
+$ cd build
 
-<example to play interactively with AI>
-./tictactoe test.board out.board --play
+<comand to make one possible best move>
+$ ./tictactoe test.board out.board
 
-<to play from the ZERO state>
-./tictactoe
+<command to play interactively with AI>
+$ ./tictactoe test.board out.board --play
+
+<command to play from the ZERO state>
+$ ./tictactoe
 ```
+
+## Results and Discussion
+
+Please see the report for details.
